@@ -1,0 +1,50 @@
+services:
+
+  ghost:
+    image: ghost:6.0.9-alpine
+    restart: always
+    ports:
+      - 2368:2368
+    depends_on:
+      - db
+    volumes:
+      - ${GHOST_CONTENT}:/var/lib/ghost/content
+    environment:
+      database__client: mysql
+      database__connection__host: db
+      database__connection__user: ${MYSQL_USER}
+      database__connection__password: ${MYSQL_PASSWORD}
+      database__connection__database: ${MYSQL_DATABASE}
+
+      url: ${GHOST_URL} # e.g. https://blog.example.com
+      NODE_ENV: ${NODE_ENV}
+
+      mail__transport: SMTP
+      mail__from: ${MAIL_FROM}
+      mail__options__host: ${MAIL_HOST}
+      mail__options__port: ${MAIL_PORT}
+      mail__options__auth__user: ${MAIL_USER}
+      mail__options__auth__pass: ${MAIL_PASS}
+
+    dns:
+      - 192.168.1.164
+      - 192.168.1.4
+
+  db:
+    image: lscr.io/linuxserver/mariadb
+    container_name: mariadb
+    hostname: db
+    restart: always
+    # Remove the next two lines unless you explicitly need external DB access
+    # ports:
+    #   - 3306:3306
+    volumes:
+      - ${DB_DATA}:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
