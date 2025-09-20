@@ -59,7 +59,7 @@ Create `.env` alongside your compose file:
 
 ```ini
 # Site
-GHOST_URL=https://blog.jpsoftworks.com
+GHOST_URL=https://blog.jpsoftworks.com #shameless plug
 NODE_ENV=production
 
 # Mail
