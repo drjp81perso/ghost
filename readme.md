@@ -130,7 +130,7 @@ services:
     # ports:
     #   - 3306:3306
     volumes:
-      - ${DB_DATA}:/var/lib/mysql
+      - ${DB_DATA}:/config #the folks at lscr.io override the default DB path
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
